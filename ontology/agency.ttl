@@ -1,0 +1,175 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix gtfs: <http://vocab.gtfs.org/terms#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+# GTFS Agency Ontology Extension
+# Detailed ontology for transit agencies
+
+<http://vocab.gtfs.org/terms/agency>
+    a owl:Ontology ;
+    dcterms:title "GTFS Agency Ontology"@en ;
+    dcterms:description "Extension ontology for GTFS transit agencies"@en ;
+    owl:imports <http://vocab.gtfs.org/terms#> .
+
+# Agency properties
+
+gtfs:agencyId
+    a owl:DatatypeProperty ;
+    rdfs:label "agency ID"@en ;
+    rdfs:comment "Unique identifier for a transit agency"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range xsd:string .
+
+gtfs:agencyName
+    a owl:DatatypeProperty ;
+    rdfs:label "agency name"@en ;
+    rdfs:comment "Full name of the transit agency"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range xsd:string .
+
+gtfs:agencyUrl
+    a owl:DatatypeProperty ;
+    rdfs:label "agency URL"@en ;
+    rdfs:comment "URL of the transit agency"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range xsd:anyURI .
+
+gtfs:agencyTimezone
+    a owl:DatatypeProperty ;
+    rdfs:label "agency timezone"@en ;
+    rdfs:comment "Timezone where the transit agency is located"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range xsd:string .
+
+gtfs:agencyLang
+    a owl:DatatypeProperty ;
+    rdfs:label "agency language"@en ;
+    rdfs:comment "Primary language used by the transit agency"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range xsd:string .
+
+gtfs:agencyPhone
+    a owl:DatatypeProperty ;
+    rdfs:label "agency phone"@en ;
+    rdfs:comment "Voice telephone number for the transit agency"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range xsd:string .
+
+gtfs:agencyFareUrl
+    a owl:DatatypeProperty ;
+    rdfs:label "agency fare URL"@en ;
+    rdfs:comment "URL of a web page for purchasing tickets"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range xsd:anyURI .
+
+gtfs:agencyEmail
+    a owl:DatatypeProperty ;
+    rdfs:label "agency email"@en ;
+    rdfs:comment "Email address for customer service"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range xsd:string .
+
+# Agency types
+
+gtfs:AgencyType
+    a owl:Class ;
+    rdfs:label "Agency Type"@en ;
+    rdfs:comment "Classification of transit agency"@en .
+
+gtfs:PublicAgency
+    a gtfs:AgencyType ;
+    rdfs:label "Public Agency"@en ;
+    rdfs:comment "Publicly operated transit agency"@en .
+
+gtfs:PrivateAgency
+    a gtfs:AgencyType ;
+    rdfs:label "Private Agency"@en ;
+    rdfs:comment "Privately operated transit agency"@en .
+
+gtfs:ContractedService
+    a gtfs:AgencyType ;
+    rdfs:label "Contracted Service"@en ;
+    rdfs:comment "Service operated under contract"@en .
+
+gtfs:hasAgencyType
+    a owl:ObjectProperty ;
+    rdfs:label "has agency type"@en ;
+    rdfs:comment "Classification of the agency"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range gtfs:AgencyType .
+
+# Service area
+
+gtfs:ServiceArea
+    a owl:Class ;
+    rdfs:label "Service Area"@en ;
+    rdfs:comment "Geographic area served by an agency"@en .
+
+gtfs:hasServiceArea
+    a owl:ObjectProperty ;
+    rdfs:label "has service area"@en ;
+    rdfs:comment "Links an agency to its service area"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range gtfs:ServiceArea .
+
+gtfs:areaName
+    a owl:DatatypeProperty ;
+    rdfs:label "area name"@en ;
+    rdfs:comment "Name of the service area"@en ;
+    rdfs:domain gtfs:ServiceArea ;
+    rdfs:range xsd:string .
+
+# Agency relationships
+
+gtfs:operates
+    a owl:ObjectProperty ;
+    rdfs:label "operates"@en ;
+    rdfs:comment "Links an agency to routes it operates"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range gtfs:Route .
+
+gtfs:parentAgency
+    a owl:ObjectProperty ;
+    rdfs:label "parent agency"@en ;
+    rdfs:comment "Links an agency to its parent agency"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range gtfs:Agency .
+
+gtfs:subsidiaryAgency
+    a owl:ObjectProperty ;
+    rdfs:label "subsidiary agency"@en ;
+    rdfs:comment "Links an agency to its subsidiary agencies"@en ;
+    rdfs:domain gtfs:Agency ;
+    rdfs:range gtfs:Agency .
+
+# Contact information using FOAF
+
+foaf:Organization
+    a owl:Class ;
+    rdfs:label "Organization"@en .
+
+gtfs:Agency rdfs:subClassOf foaf:Organization .
+
+foaf:name
+    a owl:DatatypeProperty ;
+    rdfs:label "name"@en ;
+    rdfs:domain foaf:Organization .
+
+foaf:homepage
+    a owl:DatatypeProperty ;
+    rdfs:label "homepage"@en ;
+    rdfs:domain foaf:Organization .
+
+foaf:phone
+    a owl:DatatypeProperty ;
+    rdfs:label "phone"@en ;
+    rdfs:domain foaf:Organization .
+
+foaf:mbox
+    a owl:DatatypeProperty ;
+    rdfs:label "mailbox"@en ;
+    rdfs:domain foaf:Organization .

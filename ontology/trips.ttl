@@ -1,0 +1,218 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix gtfs: <http://vocab.gtfs.org/terms#> .
+
+# GTFS Trips Ontology Extension
+# Detailed ontology for trip scheduling and operations
+
+<http://vocab.gtfs.org/terms/trips>
+    a owl:Ontology ;
+    dcterms:title "GTFS Trips Ontology"@en ;
+    dcterms:description "Extension ontology for GTFS trip scheduling and operations"@en ;
+    owl:imports <http://vocab.gtfs.org/terms#> .
+
+# Trip properties
+
+gtfs:tripId
+    a owl:DatatypeProperty ;
+    rdfs:label "trip ID"@en ;
+    rdfs:comment "Unique identifier for a trip"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range xsd:string .
+
+gtfs:tripHeadsign
+    a owl:DatatypeProperty ;
+    rdfs:label "trip headsign"@en ;
+    rdfs:comment "Text that appears on signage identifying the trip's destination to riders"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range xsd:string .
+
+gtfs:tripShortName
+    a owl:DatatypeProperty ;
+    rdfs:label "trip short name"@en ;
+    rdfs:comment "Public facing text used to identify the trip to riders"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range xsd:string .
+
+gtfs:directionId
+    a owl:DatatypeProperty ;
+    rdfs:label "direction ID"@en ;
+    rdfs:comment "Indicates the direction of travel for a trip (0 or 1)"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range xsd:integer .
+
+gtfs:blockId
+    a owl:DatatypeProperty ;
+    rdfs:label "block ID"@en ;
+    rdfs:comment "Identifies the block to which the trip belongs (same vehicle)"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range xsd:string .
+
+gtfs:wheelchairAccessibleTrip
+    a owl:DatatypeProperty ;
+    rdfs:label "wheelchair accessible trip"@en ;
+    rdfs:comment "Indicates if the trip is wheelchair accessible (0=no info, 1=accessible, 2=not accessible)"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range xsd:integer .
+
+gtfs:bikesAllowed
+    a owl:DatatypeProperty ;
+    rdfs:label "bikes allowed"@en ;
+    rdfs:comment "Indicates if bikes are allowed on this trip (0=no info, 1=allowed, 2=not allowed)"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range xsd:integer .
+
+# Trip Direction Types
+
+gtfs:TripDirection
+    a owl:Class ;
+    rdfs:label "Trip Direction"@en ;
+    rdfs:comment "The direction of travel for a trip"@en .
+
+gtfs:OutboundDirection
+    a gtfs:TripDirection ;
+    rdfs:label "Outbound"@en ;
+    rdfs:comment "Travel in one direction (typically direction_id=0)"@en .
+
+gtfs:InboundDirection
+    a gtfs:TripDirection ;
+    rdfs:label "Inbound"@en ;
+    rdfs:comment "Travel in the opposite direction (typically direction_id=1)"@en .
+
+gtfs:hasDirection
+    a owl:ObjectProperty ;
+    rdfs:label "has direction"@en ;
+    rdfs:comment "Links a trip to its direction of travel"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range gtfs:TripDirection .
+
+# Stop Time properties
+
+gtfs:pickupType
+    a owl:DatatypeProperty ;
+    rdfs:label "pickup type"@en ;
+    rdfs:comment "Indicates pickup method (0=regular, 1=none, 2=phone agency, 3=driver)"@en ;
+    rdfs:domain gtfs:StopTime ;
+    rdfs:range xsd:integer .
+
+gtfs:dropOffType
+    a owl:DatatypeProperty ;
+    rdfs:label "drop off type"@en ;
+    rdfs:comment "Indicates drop off method (0=regular, 1=none, 2=phone agency, 3=driver)"@en ;
+    rdfs:domain gtfs:StopTime ;
+    rdfs:range xsd:integer .
+
+gtfs:continuousPickup
+    a owl:DatatypeProperty ;
+    rdfs:label "continuous pickup"@en ;
+    rdfs:comment "Indicates continuous stopping pickup behavior"@en ;
+    rdfs:domain gtfs:StopTime ;
+    rdfs:range xsd:integer .
+
+gtfs:continuousDropOff
+    a owl:DatatypeProperty ;
+    rdfs:label "continuous drop off"@en ;
+    rdfs:comment "Indicates continuous stopping drop off behavior"@en ;
+    rdfs:domain gtfs:StopTime ;
+    rdfs:range xsd:integer .
+
+gtfs:shapeDistTraveled
+    a owl:DatatypeProperty ;
+    rdfs:label "shape distance traveled"@en ;
+    rdfs:comment "Distance traveled along the shape from the first stop"@en ;
+    rdfs:domain gtfs:StopTime ;
+    rdfs:range xsd:decimal .
+
+gtfs:timepoint
+    a owl:DatatypeProperty ;
+    rdfs:label "timepoint"@en ;
+    rdfs:comment "Indicates if arrival/departure times are strictly adhered to (0=approximate, 1=exact)"@en ;
+    rdfs:domain gtfs:StopTime ;
+    rdfs:range xsd:integer .
+
+# Trip Status (for real-time extensions)
+
+gtfs:TripStatus
+    a owl:Class ;
+    rdfs:label "Trip Status"@en ;
+    rdfs:comment "Current operational status of a trip"@en .
+
+gtfs:Scheduled
+    a gtfs:TripStatus ;
+    rdfs:label "Scheduled"@en ;
+    rdfs:comment "Trip is operating according to schedule"@en .
+
+gtfs:Added
+    a gtfs:TripStatus ;
+    rdfs:label "Added"@en ;
+    rdfs:comment "Trip has been added to the schedule"@en .
+
+gtfs:Canceled
+    a gtfs:TripStatus ;
+    rdfs:label "Canceled"@en ;
+    rdfs:comment "Trip has been canceled"@en .
+
+gtfs:Delayed
+    a gtfs:TripStatus ;
+    rdfs:label "Delayed"@en ;
+    rdfs:comment "Trip is running behind schedule"@en .
+
+gtfs:hasStatus
+    a owl:ObjectProperty ;
+    rdfs:label "has status"@en ;
+    rdfs:comment "Current status of the trip"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range gtfs:TripStatus .
+
+# Relationships
+
+gtfs:hasStopTime
+    a owl:ObjectProperty ;
+    rdfs:label "has stop time"@en ;
+    rdfs:comment "Links a trip to its stop times"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range gtfs:StopTime .
+
+gtfs:previousStopTime
+    a owl:ObjectProperty ;
+    rdfs:label "previous stop time"@en ;
+    rdfs:comment "Links to the previous stop time in sequence"@en ;
+    rdfs:domain gtfs:StopTime ;
+    rdfs:range gtfs:StopTime .
+
+gtfs:nextStopTime
+    a owl:ObjectProperty ;
+    rdfs:label "next stop time"@en ;
+    rdfs:comment "Links to the next stop time in sequence"@en ;
+    rdfs:domain gtfs:StopTime ;
+    rdfs:range gtfs:StopTime .
+
+# Pickup and Drop-off Types
+
+gtfs:PickupDropoffType
+    a owl:Class ;
+    rdfs:label "Pickup/Drop-off Type"@en ;
+    rdfs:comment "Method for pickup or drop-off at a stop"@en .
+
+gtfs:RegularlyScheduled
+    a gtfs:PickupDropoffType ;
+    rdfs:label "Regularly Scheduled"@en ;
+    rdfs:comment "Regular pickup or drop-off (type=0)"@en .
+
+gtfs:NoPickupDropoff
+    a gtfs:PickupDropoffType ;
+    rdfs:label "No Pickup/Drop-off"@en ;
+    rdfs:comment "No pickup or drop-off available (type=1)"@en .
+
+gtfs:PhoneAgency
+    a gtfs:PickupDropoffType ;
+    rdfs:label "Phone Agency"@en ;
+    rdfs:comment "Must phone agency to arrange pickup/drop-off (type=2)"@en .
+
+gtfs:CoordinateWithDriver
+    a gtfs:PickupDropoffType ;
+    rdfs:label "Coordinate with Driver"@en ;
+    rdfs:comment "Must coordinate with driver (type=3)"@en .

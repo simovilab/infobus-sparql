@@ -1,0 +1,209 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix gtfs: <http://vocab.gtfs.org/terms#> .
+
+# GTFS Calendar and Schedule Ontology Extension
+# Detailed ontology for service schedules and calendar data
+
+<http://vocab.gtfs.org/terms/calendar>
+    a owl:Ontology ;
+    dcterms:title "GTFS Calendar Ontology"@en ;
+    dcterms:description "Extension ontology for GTFS service schedules and calendar data"@en ;
+    owl:imports <http://vocab.gtfs.org/terms#> .
+
+# Calendar properties
+
+gtfs:serviceId
+    a owl:DatatypeProperty ;
+    rdfs:label "service ID"@en ;
+    rdfs:comment "Unique identifier for a set of dates when service is available"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range xsd:string .
+
+gtfs:monday
+    a owl:DatatypeProperty ;
+    rdfs:label "monday"@en ;
+    rdfs:comment "Indicates if service operates on Mondays (0=no, 1=yes)"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range xsd:boolean .
+
+gtfs:tuesday
+    a owl:DatatypeProperty ;
+    rdfs:label "tuesday"@en ;
+    rdfs:comment "Indicates if service operates on Tuesdays (0=no, 1=yes)"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range xsd:boolean .
+
+gtfs:wednesday
+    a owl:DatatypeProperty ;
+    rdfs:label "wednesday"@en ;
+    rdfs:comment "Indicates if service operates on Wednesdays (0=no, 1=yes)"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range xsd:boolean .
+
+gtfs:thursday
+    a owl:DatatypeProperty ;
+    rdfs:label "thursday"@en ;
+    rdfs:comment "Indicates if service operates on Thursdays (0=no, 1=yes)"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range xsd:boolean .
+
+gtfs:friday
+    a owl:DatatypeProperty ;
+    rdfs:label "friday"@en ;
+    rdfs:comment "Indicates if service operates on Fridays (0=no, 1=yes)"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range xsd:boolean .
+
+gtfs:saturday
+    a owl:DatatypeProperty ;
+    rdfs:label "saturday"@en ;
+    rdfs:comment "Indicates if service operates on Saturdays (0=no, 1=yes)"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range xsd:boolean .
+
+gtfs:sunday
+    a owl:DatatypeProperty ;
+    rdfs:label "sunday"@en ;
+    rdfs:comment "Indicates if service operates on Sundays (0=no, 1=yes)"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range xsd:boolean .
+
+gtfs:startDate
+    a owl:DatatypeProperty ;
+    rdfs:label "start date"@en ;
+    rdfs:comment "Start date for the service interval (YYYYMMDD)"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range xsd:date .
+
+gtfs:endDate
+    a owl:DatatypeProperty ;
+    rdfs:label "end date"@en ;
+    rdfs:comment "End date for the service interval (YYYYMMDD)"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range xsd:date .
+
+# Calendar Date (exceptions) properties
+
+gtfs:date
+    a owl:DatatypeProperty ;
+    rdfs:label "date"@en ;
+    rdfs:comment "Date of the service exception (YYYYMMDD)"@en ;
+    rdfs:domain gtfs:CalendarDate ;
+    rdfs:range xsd:date .
+
+gtfs:exceptionType
+    a owl:DatatypeProperty ;
+    rdfs:label "exception type"@en ;
+    rdfs:comment "Type of exception (1=service added, 2=service removed)"@en ;
+    rdfs:domain gtfs:CalendarDate ;
+    rdfs:range xsd:integer .
+
+# Exception Types
+
+gtfs:ExceptionType
+    a owl:Class ;
+    rdfs:label "Exception Type"@en ;
+    rdfs:comment "Type of calendar exception"@en .
+
+gtfs:ServiceAdded
+    a gtfs:ExceptionType ;
+    rdfs:label "Service Added"@en ;
+    rdfs:comment "Service has been added for the date (exception_type=1)"@en .
+
+gtfs:ServiceRemoved
+    a gtfs:ExceptionType ;
+    rdfs:label "Service Removed"@en ;
+    rdfs:comment "Service has been removed for the date (exception_type=2)"@en .
+
+gtfs:hasExceptionType
+    a owl:ObjectProperty ;
+    rdfs:label "has exception type"@en ;
+    rdfs:comment "Links a calendar date to its exception type"@en ;
+    rdfs:domain gtfs:CalendarDate ;
+    rdfs:range gtfs:ExceptionType .
+
+# Service patterns
+
+gtfs:ServicePattern
+    a owl:Class ;
+    rdfs:label "Service Pattern"@en ;
+    rdfs:comment "A pattern of service availability"@en .
+
+gtfs:Weekday
+    a gtfs:ServicePattern ;
+    rdfs:label "Weekday"@en ;
+    rdfs:comment "Service operates Monday through Friday"@en .
+
+gtfs:Weekend
+    a gtfs:ServicePattern ;
+    rdfs:label "Weekend"@en ;
+    rdfs:comment "Service operates Saturday and Sunday"@en .
+
+gtfs:Daily
+    a gtfs:ServicePattern ;
+    rdfs:label "Daily"@en ;
+    rdfs:comment "Service operates every day"@en .
+
+gtfs:hasServicePattern
+    a owl:ObjectProperty ;
+    rdfs:label "has service pattern"@en ;
+    rdfs:comment "Links a calendar to its service pattern"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range gtfs:ServicePattern .
+
+# Relationships
+
+gtfs:hasException
+    a owl:ObjectProperty ;
+    rdfs:label "has exception"@en ;
+    rdfs:comment "Links a calendar to its date exceptions"@en ;
+    rdfs:domain gtfs:Calendar ;
+    rdfs:range gtfs:CalendarDate .
+
+gtfs:appliesTo
+    a owl:ObjectProperty ;
+    rdfs:label "applies to"@en ;
+    rdfs:comment "Links a calendar date exception to its calendar"@en ;
+    rdfs:domain gtfs:CalendarDate ;
+    rdfs:range gtfs:Calendar .
+
+# Frequency-based service
+
+gtfs:startTime
+    a owl:DatatypeProperty ;
+    rdfs:label "start time"@en ;
+    rdfs:comment "Start time for headway-based service"@en ;
+    rdfs:domain gtfs:Frequency ;
+    rdfs:range xsd:string .
+
+gtfs:endTime
+    a owl:DatatypeProperty ;
+    rdfs:label "end time"@en ;
+    rdfs:comment "End time for headway-based service"@en ;
+    rdfs:domain gtfs:Frequency ;
+    rdfs:range xsd:string .
+
+gtfs:headwaySecs
+    a owl:DatatypeProperty ;
+    rdfs:label "headway seconds"@en ;
+    rdfs:comment "Time between departures in seconds"@en ;
+    rdfs:domain gtfs:Frequency ;
+    rdfs:range xsd:integer .
+
+gtfs:exactTimes
+    a owl:DatatypeProperty ;
+    rdfs:label "exact times"@en ;
+    rdfs:comment "Indicates if frequency-based trips follow a fixed schedule (0=frequency-based, 1=schedule-based)"@en ;
+    rdfs:domain gtfs:Frequency ;
+    rdfs:range xsd:boolean .
+
+gtfs:hasFrequency
+    a owl:ObjectProperty ;
+    rdfs:label "has frequency"@en ;
+    rdfs:comment "Links a trip to its frequency information"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range gtfs:Frequency .
