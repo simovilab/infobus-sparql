@@ -1,0 +1,184 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix gtfs: <http://vocab.gtfs.org/terms#> .
+
+# GTFS Routes Ontology Extension
+# Detailed ontology for transit routes
+
+<http://vocab.gtfs.org/terms/routes>
+    a owl:Ontology ;
+    dcterms:title "GTFS Routes Ontology"@en ;
+    dcterms:description "Extension ontology for GTFS transit routes"@en ;
+    owl:imports <http://vocab.gtfs.org/terms#> .
+
+# Route properties
+
+gtfs:routeId
+    a owl:DatatypeProperty ;
+    rdfs:label "route ID"@en ;
+    rdfs:comment "Unique identifier for a route"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range xsd:string .
+
+gtfs:routeShortName
+    a owl:DatatypeProperty ;
+    rdfs:label "route short name"@en ;
+    rdfs:comment "Short name of a route (e.g., bus number)"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range xsd:string .
+
+gtfs:routeLongName
+    a owl:DatatypeProperty ;
+    rdfs:label "route long name"@en ;
+    rdfs:comment "Full name of a route"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range xsd:string .
+
+gtfs:routeType
+    a owl:ObjectProperty ;
+    rdfs:label "route type"@en ;
+    rdfs:comment "Type of transportation used on a route"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range gtfs:RouteType .
+
+gtfs:routeTypeValue
+    a owl:DatatypeProperty ;
+    rdfs:label "route type value"@en ;
+    rdfs:comment "Numeric value for route type"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range xsd:integer .
+
+gtfs:routeColor
+    a owl:DatatypeProperty ;
+    rdfs:label "route color"@en ;
+    rdfs:comment "Route color designation (6-character hex value)"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range xsd:string .
+
+gtfs:routeTextColor
+    a owl:DatatypeProperty ;
+    rdfs:label "route text color"@en ;
+    rdfs:comment "Legible color for text on route_color background (6-character hex value)"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range xsd:string .
+
+gtfs:routeUrl
+    a owl:DatatypeProperty ;
+    rdfs:label "route URL"@en ;
+    rdfs:comment "URL of a web page about the route"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range xsd:anyURI .
+
+gtfs:routeDesc
+    a owl:DatatypeProperty ;
+    rdfs:label "route description"@en ;
+    rdfs:comment "Description of the route"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range xsd:string .
+
+gtfs:routeSortOrder
+    a owl:DatatypeProperty ;
+    rdfs:label "route sort order"@en ;
+    rdfs:comment "Orders routes for presentation"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range xsd:integer .
+
+gtfs:continuousPickupRoute
+    a owl:DatatypeProperty ;
+    rdfs:label "continuous pickup route"@en ;
+    rdfs:comment "Indicates continuous stopping pickup for the entire route"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range xsd:integer .
+
+gtfs:continuousDropOffRoute
+    a owl:DatatypeProperty ;
+    rdfs:label "continuous drop off route"@en ;
+    rdfs:comment "Indicates continuous stopping drop off for the entire route"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range xsd:integer .
+
+# Extended Route Types (additional GTFS route types)
+
+gtfs:TrolleyBus
+    a gtfs:RouteType ;
+    rdfs:label "Trolley Bus"@en ;
+    rdfs:comment "Electric trolley bus (11)"@en .
+
+gtfs:Monorail
+    a gtfs:RouteType ;
+    rdfs:label "Monorail"@en ;
+    rdfs:comment "Monorail service (12)"@en .
+
+# Route patterns and variations
+
+gtfs:RoutePattern
+    a owl:Class ;
+    rdfs:label "Route Pattern"@en ;
+    rdfs:comment "A specific pattern of stops that a route follows"@en .
+
+gtfs:hasPattern
+    a owl:ObjectProperty ;
+    rdfs:label "has pattern"@en ;
+    rdfs:comment "Links a route to its patterns"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range gtfs:RoutePattern .
+
+gtfs:patternName
+    a owl:DatatypeProperty ;
+    rdfs:label "pattern name"@en ;
+    rdfs:comment "Name identifying the route pattern"@en ;
+    rdfs:domain gtfs:RoutePattern ;
+    rdfs:range xsd:string .
+
+# Route classifications
+
+gtfs:RouteClassification
+    a owl:Class ;
+    rdfs:label "Route Classification"@en ;
+    rdfs:comment "Classification of route service level or type"@en .
+
+gtfs:LocalService
+    a gtfs:RouteClassification ;
+    rdfs:label "Local Service"@en ;
+    rdfs:comment "Local service with frequent stops"@en .
+
+gtfs:ExpressService
+    a gtfs:RouteClassification ;
+    rdfs:label "Express Service"@en ;
+    rdfs:comment "Express service with limited stops"@en .
+
+gtfs:RapidTransit
+    a gtfs:RouteClassification ;
+    rdfs:label "Rapid Transit"@en ;
+    rdfs:comment "High-frequency rapid transit service"@en .
+
+gtfs:CommutorService
+    a gtfs:RouteClassification ;
+    rdfs:label "Commuter Service"@en ;
+    rdfs:comment "Peak-hour commuter service"@en .
+
+gtfs:hasClassification
+    a owl:ObjectProperty ;
+    rdfs:label "has classification"@en ;
+    rdfs:comment "Links a route to its service classification"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range gtfs:RouteClassification .
+
+# Route relationships
+
+gtfs:servesStop
+    a owl:ObjectProperty ;
+    rdfs:label "serves stop"@en ;
+    rdfs:comment "Indicates that a route serves a particular stop"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range gtfs:Stop .
+
+gtfs:operatedBy
+    a owl:ObjectProperty ;
+    rdfs:label "operated by"@en ;
+    rdfs:comment "Links a route to the agency that operates it"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range gtfs:Agency .

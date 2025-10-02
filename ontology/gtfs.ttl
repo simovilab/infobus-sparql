@@ -1,0 +1,297 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix gtfs: <http://vocab.gtfs.org/terms#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+
+# GTFS (General Transit Feed Specification) Ontology
+# Based on the GTFS specification for public transportation data
+
+gtfs:
+    a owl:Ontology ;
+    dcterms:title "GTFS Ontology"@en ;
+    dcterms:description "Ontology for representing General Transit Feed Specification (GTFS) data"@en ;
+    dcterms:creator "InfoBus Project" ;
+    owl:versionInfo "1.0" .
+
+# Core Classes
+
+gtfs:Agency
+    a owl:Class ;
+    rdfs:label "Agency"@en ;
+    rdfs:comment "A transit agency that operates one or more routes"@en .
+
+gtfs:Stop
+    a owl:Class ;
+    rdfs:label "Stop"@en ;
+    rdfs:comment "A location where vehicles stop to pick up or drop off passengers"@en .
+
+gtfs:Route
+    a owl:Class ;
+    rdfs:label "Route"@en ;
+    rdfs:comment "A transit route that follows a specific path through stops"@en .
+
+gtfs:Trip
+    a owl:Class ;
+    rdfs:label "Trip"@en ;
+    rdfs:comment "A single journey along a route at a specific time"@en .
+
+gtfs:StopTime
+    a owl:Class ;
+    rdfs:label "Stop Time"@en ;
+    rdfs:comment "A scheduled arrival/departure time at a specific stop for a trip"@en .
+
+gtfs:Calendar
+    a owl:Class ;
+    rdfs:label "Calendar"@en ;
+    rdfs:comment "Service schedule defining when a service is available"@en .
+
+gtfs:CalendarDate
+    a owl:Class ;
+    rdfs:label "Calendar Date"@en ;
+    rdfs:comment "Exceptions to the regular service calendar"@en .
+
+gtfs:FareAttribute
+    a owl:Class ;
+    rdfs:label "Fare Attribute"@en ;
+    rdfs:comment "Fare information for a transit agency's routes"@en .
+
+gtfs:FareRule
+    a owl:Class ;
+    rdfs:label "Fare Rule"@en ;
+    rdfs:comment "Rules for applying fares for routes"@en .
+
+gtfs:Shape
+    a owl:Class ;
+    rdfs:label "Shape"@en ;
+    rdfs:comment "The geographic path that a vehicle follows along a route"@en .
+
+gtfs:Frequency
+    a owl:Class ;
+    rdfs:label "Frequency"@en ;
+    rdfs:comment "Headway-based service information"@en .
+
+gtfs:Transfer
+    a owl:Class ;
+    rdfs:label "Transfer"@en ;
+    rdfs:comment "Rules for making connections at transfer points"@en .
+
+gtfs:Pathway
+    a owl:Class ;
+    rdfs:label "Pathway"@en ;
+    rdfs:comment "Pathways linking locations within stations"@en .
+
+gtfs:Level
+    a owl:Class ;
+    rdfs:label "Level"@en ;
+    rdfs:comment "Levels within a station"@en .
+
+# Object Properties
+
+gtfs:agency
+    a owl:ObjectProperty ;
+    rdfs:label "agency"@en ;
+    rdfs:comment "Links a route to its operating agency"@en ;
+    rdfs:domain gtfs:Route ;
+    rdfs:range gtfs:Agency .
+
+gtfs:route
+    a owl:ObjectProperty ;
+    rdfs:label "route"@en ;
+    rdfs:comment "Links a trip to its route"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range gtfs:Route .
+
+gtfs:trip
+    a owl:ObjectProperty ;
+    rdfs:label "trip"@en ;
+    rdfs:comment "Links a stop time to its trip"@en ;
+    rdfs:domain gtfs:StopTime ;
+    rdfs:range gtfs:Trip .
+
+gtfs:stop
+    a owl:ObjectProperty ;
+    rdfs:label "stop"@en ;
+    rdfs:comment "Links a stop time to its stop"@en ;
+    rdfs:domain gtfs:StopTime ;
+    rdfs:range gtfs:Stop .
+
+gtfs:parentStation
+    a owl:ObjectProperty ;
+    rdfs:label "parent station"@en ;
+    rdfs:comment "Links a stop to its parent station"@en ;
+    rdfs:domain gtfs:Stop ;
+    rdfs:range gtfs:Stop .
+
+gtfs:service
+    a owl:ObjectProperty ;
+    rdfs:label "service"@en ;
+    rdfs:comment "Links a trip to its service calendar"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range gtfs:Calendar .
+
+gtfs:shape
+    a owl:ObjectProperty ;
+    rdfs:label "shape"@en ;
+    rdfs:comment "Links a trip to its geographic shape"@en ;
+    rdfs:domain gtfs:Trip ;
+    rdfs:range gtfs:Shape .
+
+# Datatype Properties
+
+gtfs:id
+    a owl:DatatypeProperty ;
+    rdfs:label "identifier"@en ;
+    rdfs:comment "Unique identifier for the entity"@en ;
+    rdfs:range xsd:string .
+
+gtfs:name
+    a owl:DatatypeProperty ;
+    rdfs:label "name"@en ;
+    rdfs:comment "Human-readable name"@en ;
+    rdfs:range xsd:string .
+
+gtfs:description
+    a owl:DatatypeProperty ;
+    rdfs:label "description"@en ;
+    rdfs:comment "Description of the entity"@en ;
+    rdfs:range xsd:string .
+
+gtfs:code
+    a owl:DatatypeProperty ;
+    rdfs:label "code"@en ;
+    rdfs:comment "Short code or identifier"@en ;
+    rdfs:range xsd:string .
+
+gtfs:url
+    a owl:DatatypeProperty ;
+    rdfs:label "URL"@en ;
+    rdfs:comment "Web address"@en ;
+    rdfs:range xsd:anyURI .
+
+gtfs:timezone
+    a owl:DatatypeProperty ;
+    rdfs:label "timezone"@en ;
+    rdfs:comment "Timezone identifier"@en ;
+    rdfs:range xsd:string .
+
+gtfs:phone
+    a owl:DatatypeProperty ;
+    rdfs:label "phone"@en ;
+    rdfs:comment "Phone number"@en ;
+    rdfs:range xsd:string .
+
+gtfs:latitude
+    a owl:DatatypeProperty ;
+    rdfs:label "latitude"@en ;
+    rdfs:comment "Latitude coordinate in WGS84"@en ;
+    rdfs:range xsd:decimal .
+
+gtfs:longitude
+    a owl:DatatypeProperty ;
+    rdfs:label "longitude"@en ;
+    rdfs:comment "Longitude coordinate in WGS84"@en ;
+    rdfs:range xsd:decimal .
+
+gtfs:wheelchairAccessible
+    a owl:DatatypeProperty ;
+    rdfs:label "wheelchair accessible"@en ;
+    rdfs:comment "Indicates wheelchair accessibility"@en ;
+    rdfs:range xsd:integer .
+
+gtfs:arrivalTime
+    a owl:DatatypeProperty ;
+    rdfs:label "arrival time"@en ;
+    rdfs:comment "Scheduled arrival time"@en ;
+    rdfs:range xsd:string .
+
+gtfs:departureTime
+    a owl:DatatypeProperty ;
+    rdfs:label "departure time"@en ;
+    rdfs:comment "Scheduled departure time"@en ;
+    rdfs:range xsd:string .
+
+gtfs:stopSequence
+    a owl:DatatypeProperty ;
+    rdfs:label "stop sequence"@en ;
+    rdfs:comment "Order of stops in a trip"@en ;
+    rdfs:range xsd:integer .
+
+gtfs:headsign
+    a owl:DatatypeProperty ;
+    rdfs:label "headsign"@en ;
+    rdfs:comment "Text that appears on signage to identify the trip's destination"@en ;
+    rdfs:range xsd:string .
+
+gtfs:shortName
+    a owl:DatatypeProperty ;
+    rdfs:label "short name"@en ;
+    rdfs:comment "Short name for display"@en ;
+    rdfs:range xsd:string .
+
+gtfs:longName
+    a owl:DatatypeProperty ;
+    rdfs:label "long name"@en ;
+    rdfs:comment "Full name for display"@en ;
+    rdfs:range xsd:string .
+
+gtfs:color
+    a owl:DatatypeProperty ;
+    rdfs:label "color"@en ;
+    rdfs:comment "Color for display (hex value)"@en ;
+    rdfs:range xsd:string .
+
+gtfs:textColor
+    a owl:DatatypeProperty ;
+    rdfs:label "text color"@en ;
+    rdfs:comment "Text color for display (hex value)"@en ;
+    rdfs:range xsd:string .
+
+# Route Types (GTFS route_type values)
+
+gtfs:RouteType
+    a owl:Class ;
+    rdfs:label "Route Type"@en ;
+    rdfs:comment "The type of transportation used on a route"@en .
+
+gtfs:Tram
+    a gtfs:RouteType ;
+    rdfs:label "Tram"@en ;
+    rdfs:comment "Light rail or street level tram (0)"@en .
+
+gtfs:Subway
+    a gtfs:RouteType ;
+    rdfs:label "Subway"@en ;
+    rdfs:comment "Underground subway or metro (1)"@en .
+
+gtfs:Rail
+    a gtfs:RouteType ;
+    rdfs:label "Rail"@en ;
+    rdfs:comment "Intercity or long-distance rail (2)"@en .
+
+gtfs:Bus
+    a gtfs:RouteType ;
+    rdfs:label "Bus"@en ;
+    rdfs:comment "Bus service (3)"@en .
+
+gtfs:Ferry
+    a gtfs:RouteType ;
+    rdfs:label "Ferry"@en ;
+    rdfs:comment "Ferry or boat service (4)"@en .
+
+gtfs:CableCar
+    a gtfs:RouteType ;
+    rdfs:label "Cable Car"@en ;
+    rdfs:comment "Cable car or street cable car (5)"@en .
+
+gtfs:Gondola
+    a gtfs:RouteType ;
+    rdfs:label "Gondola"@en ;
+    rdfs:comment "Aerial lift or gondola (6)"@en .
+
+gtfs:Funicular
+    a gtfs:RouteType ;
+    rdfs:label "Funicular"@en ;
+    rdfs:comment "Funicular rail service (7)"@en .

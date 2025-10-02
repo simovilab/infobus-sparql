@@ -1,0 +1,176 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix gtfs: <http://vocab.gtfs.org/terms#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+
+# GTFS Stops Ontology Extension
+# Detailed ontology for stop locations and facilities
+
+<http://vocab.gtfs.org/terms/stops>
+    a owl:Ontology ;
+    dcterms:title "GTFS Stops Ontology"@en ;
+    dcterms:description "Extension ontology for GTFS stop locations and facilities"@en ;
+    owl:imports <http://vocab.gtfs.org/terms#> .
+
+# Stop Location Types
+
+gtfs:StopLocationType
+    a owl:Class ;
+    rdfs:label "Stop Location Type"@en ;
+    rdfs:comment "The type of location represented by a stop"@en .
+
+gtfs:StopPlatform
+    a gtfs:StopLocationType ;
+    rdfs:label "Stop/Platform"@en ;
+    rdfs:comment "A location where passengers board or alight from a transit vehicle (location_type=0)"@en .
+
+gtfs:Station
+    a gtfs:StopLocationType ;
+    rdfs:label "Station"@en ;
+    rdfs:comment "A physical structure or area containing one or more platforms (location_type=1)"@en .
+
+gtfs:EntranceExit
+    a gtfs:StopLocationType ;
+    rdfs:label "Entrance/Exit"@en ;
+    rdfs:comment "A location where passengers can enter or exit a station (location_type=2)"@en .
+
+gtfs:GenericNode
+    a gtfs:StopLocationType ;
+    rdfs:label "Generic Node"@en ;
+    rdfs:comment "A location within a station used for pathway connections (location_type=3)"@en .
+
+gtfs:BoardingArea
+    a gtfs:StopLocationType ;
+    rdfs:label "Boarding Area"@en ;
+    rdfs:comment "A specific location on a platform where passengers can board (location_type=4)"@en .
+
+# Properties specific to stops
+
+gtfs:locationType
+    a owl:ObjectProperty ;
+    rdfs:label "location type"@en ;
+    rdfs:comment "The type of location represented by this stop"@en ;
+    rdfs:domain gtfs:Stop ;
+    rdfs:range gtfs:StopLocationType .
+
+gtfs:zoneId
+    a owl:DatatypeProperty ;
+    rdfs:label "zone ID"@en ;
+    rdfs:comment "Fare zone identifier for a stop"@en ;
+    rdfs:domain gtfs:Stop ;
+    rdfs:range xsd:string .
+
+gtfs:platformCode
+    a owl:DatatypeProperty ;
+    rdfs:label "platform code"@en ;
+    rdfs:comment "Platform identifier for a stop (e.g., G or 3)"@en ;
+    rdfs:domain gtfs:Stop ;
+    rdfs:range xsd:string .
+
+gtfs:wheelchairBoarding
+    a owl:DatatypeProperty ;
+    rdfs:label "wheelchair boarding"@en ;
+    rdfs:comment "Indicates whether wheelchair boarding is possible (0=no info, 1=accessible, 2=not accessible)"@en ;
+    rdfs:domain gtfs:Stop ;
+    rdfs:range xsd:integer .
+
+gtfs:levelId
+    a owl:ObjectProperty ;
+    rdfs:label "level"@en ;
+    rdfs:comment "Links a stop to its level within a station"@en ;
+    rdfs:domain gtfs:Stop ;
+    rdfs:range gtfs:Level .
+
+# Geographical properties
+
+gtfs:hasLocation
+    a owl:ObjectProperty ;
+    rdfs:label "has location"@en ;
+    rdfs:comment "Links a stop to its geographical location"@en ;
+    rdfs:domain gtfs:Stop ;
+    rdfs:range geo:Point .
+
+geo:Point
+    a owl:Class ;
+    rdfs:label "Geographic Point"@en ;
+    rdfs:comment "A point location in the WGS84 coordinate system"@en .
+
+geo:lat
+    a owl:DatatypeProperty ;
+    rdfs:label "latitude"@en ;
+    rdfs:domain geo:Point ;
+    rdfs:range xsd:decimal .
+
+geo:long
+    a owl:DatatypeProperty ;
+    rdfs:label "longitude"@en ;
+    rdfs:domain geo:Point ;
+    rdfs:range xsd:decimal .
+
+# Stop Amenities (extension)
+
+gtfs:StopAmenity
+    a owl:Class ;
+    rdfs:label "Stop Amenity"@en ;
+    rdfs:comment "Facilities or services available at a stop"@en .
+
+gtfs:hasAmenity
+    a owl:ObjectProperty ;
+    rdfs:label "has amenity"@en ;
+    rdfs:comment "Links a stop to its available amenities"@en ;
+    rdfs:domain gtfs:Stop ;
+    rdfs:range gtfs:StopAmenity .
+
+gtfs:Shelter
+    a gtfs:StopAmenity ;
+    rdfs:label "Shelter"@en ;
+    rdfs:comment "Weather protection shelter"@en .
+
+gtfs:Bench
+    a gtfs:StopAmenity ;
+    rdfs:label "Bench"@en ;
+    rdfs:comment "Seating available"@en .
+
+gtfs:TicketMachine
+    a gtfs:StopAmenity ;
+    rdfs:label "Ticket Machine"@en ;
+    rdfs:comment "Automated ticket vending machine"@en .
+
+gtfs:BikeParking
+    a gtfs:StopAmenity ;
+    rdfs:label "Bike Parking"@en ;
+    rdfs:comment "Bicycle parking facilities"@en .
+
+gtfs:Restroom
+    a gtfs:StopAmenity ;
+    rdfs:label "Restroom"@en ;
+    rdfs:comment "Public restroom facilities"@en .
+
+gtfs:Elevator
+    a gtfs:StopAmenity ;
+    rdfs:label "Elevator"@en ;
+    rdfs:comment "Elevator for accessibility"@en .
+
+gtfs:Escalator
+    a gtfs:StopAmenity ;
+    rdfs:label "Escalator"@en ;
+    rdfs:comment "Escalator available"@en .
+
+# Additional stop properties
+
+gtfs:stopTimezone
+    a owl:DatatypeProperty ;
+    rdfs:label "stop timezone"@en ;
+    rdfs:comment "Timezone of the stop location (overrides agency timezone)"@en ;
+    rdfs:domain gtfs:Stop ;
+    rdfs:range xsd:string .
+
+gtfs:ttsStopName
+    a owl:DatatypeProperty ;
+    rdfs:label "TTS stop name"@en ;
+    rdfs:comment "Stop name for text-to-speech systems"@en ;
+    rdfs:domain gtfs:Stop ;
+    rdfs:range xsd:string .

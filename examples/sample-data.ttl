@@ -1,0 +1,106 @@
+@prefix gtfs: <http://vocab.gtfs.org/terms#> .
+@prefix ex: <http://example.org/transit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Example GTFS Data - Sample Transit Agency
+
+# Agency
+ex:metro a gtfs:Agency ;
+    gtfs:agencyId "METRO" ;
+    gtfs:agencyName "Metro Transit Authority" ;
+    gtfs:agencyUrl <http://metro.example.org> ;
+    gtfs:agencyTimezone "America/New_York" ;
+    gtfs:agencyLang "en" ;
+    gtfs:agencyPhone "+1-555-0123" .
+
+# Route
+ex:route1 a gtfs:Route ;
+    gtfs:routeId "1" ;
+    gtfs:routeShortName "1" ;
+    gtfs:routeLongName "Downtown - Airport Express" ;
+    gtfs:routeType gtfs:Bus ;
+    gtfs:routeColor "FF0000" ;
+    gtfs:routeTextColor "FFFFFF" ;
+    gtfs:agency ex:metro .
+
+# Stops
+ex:stop1 a gtfs:Stop ;
+    gtfs:id "STOP1" ;
+    gtfs:name "Main Street Station" ;
+    gtfs:latitude "40.7589"^^xsd:decimal ;
+    gtfs:longitude "-73.9851"^^xsd:decimal ;
+    gtfs:wheelchairBoarding 1 .
+
+ex:stop2 a gtfs:Stop ;
+    gtfs:id "STOP2" ;
+    gtfs:name "Central Park West" ;
+    gtfs:latitude "40.7794"^^xsd:decimal ;
+    gtfs:longitude "-73.9632"^^xsd:decimal ;
+    gtfs:wheelchairBoarding 1 .
+
+ex:stop3 a gtfs:Stop ;
+    gtfs:id "STOP3" ;
+    gtfs:name "Airport Terminal" ;
+    gtfs:latitude "40.6413"^^xsd:decimal ;
+    gtfs:longitude "-73.7781"^^xsd:decimal ;
+    gtfs:wheelchairBoarding 1 .
+
+# Calendar
+ex:weekday a gtfs:Calendar ;
+    gtfs:serviceId "WEEKDAY" ;
+    gtfs:monday true ;
+    gtfs:tuesday true ;
+    gtfs:wednesday true ;
+    gtfs:thursday true ;
+    gtfs:friday true ;
+    gtfs:saturday false ;
+    gtfs:sunday false ;
+    gtfs:startDate "2024-01-01"^^xsd:date ;
+    gtfs:endDate "2024-12-31"^^xsd:date .
+
+# Trip
+ex:trip1 a gtfs:Trip ;
+    gtfs:tripId "TRIP1" ;
+    gtfs:tripHeadsign "Airport" ;
+    gtfs:route ex:route1 ;
+    gtfs:service ex:weekday ;
+    gtfs:directionId 0 ;
+    gtfs:wheelchairAccessibleTrip 1 ;
+    gtfs:bikesAllowed 1 .
+
+# Stop Times
+ex:stoptime1 a gtfs:StopTime ;
+    gtfs:trip ex:trip1 ;
+    gtfs:stop ex:stop1 ;
+    gtfs:arrivalTime "08:00:00" ;
+    gtfs:departureTime "08:00:00" ;
+    gtfs:stopSequence 1 ;
+    gtfs:pickupType 0 ;
+    gtfs:dropOffType 0 .
+
+ex:stoptime2 a gtfs:StopTime ;
+    gtfs:trip ex:trip1 ;
+    gtfs:stop ex:stop2 ;
+    gtfs:arrivalTime "08:15:00" ;
+    gtfs:departureTime "08:16:00" ;
+    gtfs:stopSequence 2 ;
+    gtfs:pickupType 0 ;
+    gtfs:dropOffType 0 .
+
+ex:stoptime3 a gtfs:StopTime ;
+    gtfs:trip ex:trip1 ;
+    gtfs:stop ex:stop3 ;
+    gtfs:arrivalTime "08:45:00" ;
+    gtfs:departureTime "08:45:00" ;
+    gtfs:stopSequence 3 ;
+    gtfs:pickupType 0 ;
+    gtfs:dropOffType 0 .
+
+# Fare
+ex:fare1 a gtfs:FareAttribute ;
+    gtfs:fareId "ADULT" ;
+    gtfs:price "2.50"^^xsd:decimal ;
+    gtfs:currencyType "USD" ;
+    gtfs:paymentMethod 1 ;
+    gtfs:transfers 1 ;
+    gtfs:transferDuration 5400 .
