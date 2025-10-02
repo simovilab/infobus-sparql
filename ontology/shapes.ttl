@@ -1,0 +1,129 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix gtfs: <http://vocab.gtfs.org/terms#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+
+# GTFS Shapes Ontology Extension
+# Detailed ontology for route shapes and geographic paths
+
+<http://vocab.gtfs.org/terms/shapes>
+    a owl:Ontology ;
+    dcterms:title "GTFS Shapes Ontology"@en ;
+    dcterms:description "Extension ontology for GTFS route shapes and geographic paths"@en ;
+    owl:imports <http://vocab.gtfs.org/terms#> .
+
+# Shape Point class
+
+gtfs:ShapePoint
+    a owl:Class ;
+    rdfs:label "Shape Point"@en ;
+    rdfs:comment "A single point along a shape defining the vehicle's path"@en .
+
+# Shape properties
+
+gtfs:shapeId
+    a owl:DatatypeProperty ;
+    rdfs:label "shape ID"@en ;
+    rdfs:comment "Unique identifier for a shape"@en ;
+    rdfs:domain gtfs:Shape ;
+    rdfs:range xsd:string .
+
+gtfs:shapePtLat
+    a owl:DatatypeProperty ;
+    rdfs:label "shape point latitude"@en ;
+    rdfs:comment "Latitude of a shape point"@en ;
+    rdfs:domain gtfs:ShapePoint ;
+    rdfs:range xsd:decimal .
+
+gtfs:shapePtLon
+    a owl:DatatypeProperty ;
+    rdfs:label "shape point longitude"@en ;
+    rdfs:comment "Longitude of a shape point"@en ;
+    rdfs:domain gtfs:ShapePoint ;
+    rdfs:range xsd:decimal .
+
+gtfs:shapePtSequence
+    a owl:DatatypeProperty ;
+    rdfs:label "shape point sequence"@en ;
+    rdfs:comment "Sequence in which shape points connect to form the shape"@en ;
+    rdfs:domain gtfs:ShapePoint ;
+    rdfs:range xsd:integer .
+
+gtfs:shapeDistTraveled
+    a owl:DatatypeProperty ;
+    rdfs:label "shape distance traveled"@en ;
+    rdfs:comment "Distance traveled along the shape from the first shape point"@en ;
+    rdfs:domain gtfs:ShapePoint ;
+    rdfs:range xsd:decimal .
+
+# Relationships
+
+gtfs:hasShapePoint
+    a owl:ObjectProperty ;
+    rdfs:label "has shape point"@en ;
+    rdfs:comment "Links a shape to its constituent points"@en ;
+    rdfs:domain gtfs:Shape ;
+    rdfs:range gtfs:ShapePoint .
+
+gtfs:belongsToShape
+    a owl:ObjectProperty ;
+    rdfs:label "belongs to shape"@en ;
+    rdfs:comment "Links a shape point to its parent shape"@en ;
+    rdfs:domain gtfs:ShapePoint ;
+    rdfs:range gtfs:Shape .
+
+gtfs:nextShapePoint
+    a owl:ObjectProperty ;
+    rdfs:label "next shape point"@en ;
+    rdfs:comment "Links to the next shape point in sequence"@en ;
+    rdfs:domain gtfs:ShapePoint ;
+    rdfs:range gtfs:ShapePoint .
+
+gtfs:previousShapePoint
+    a owl:ObjectProperty ;
+    rdfs:label "previous shape point"@en ;
+    rdfs:comment "Links to the previous shape point in sequence"@en ;
+    rdfs:domain gtfs:ShapePoint ;
+    rdfs:range gtfs:ShapePoint .
+
+# Geographic representation
+
+gtfs:asLineString
+    a owl:DatatypeProperty ;
+    rdfs:label "as line string"@en ;
+    rdfs:comment "Shape represented as a WKT LineString"@en ;
+    rdfs:domain gtfs:Shape ;
+    rdfs:range xsd:string .
+
+gtfs:asGeoJSON
+    a owl:DatatypeProperty ;
+    rdfs:label "as GeoJSON"@en ;
+    rdfs:comment "Shape represented as GeoJSON geometry"@en ;
+    rdfs:domain gtfs:Shape ;
+    rdfs:range xsd:string .
+
+gtfs:totalDistance
+    a owl:DatatypeProperty ;
+    rdfs:label "total distance"@en ;
+    rdfs:comment "Total distance covered by the shape"@en ;
+    rdfs:domain gtfs:Shape ;
+    rdfs:range xsd:decimal .
+
+# Shape quality metrics
+
+gtfs:pointCount
+    a owl:DatatypeProperty ;
+    rdfs:label "point count"@en ;
+    rdfs:comment "Number of points in the shape"@en ;
+    rdfs:domain gtfs:Shape ;
+    rdfs:range xsd:integer .
+
+gtfs:averagePointDistance
+    a owl:DatatypeProperty ;
+    rdfs:label "average point distance"@en ;
+    rdfs:comment "Average distance between consecutive shape points"@en ;
+    rdfs:domain gtfs:Shape ;
+    rdfs:range xsd:decimal .

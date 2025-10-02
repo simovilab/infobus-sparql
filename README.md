@@ -16,6 +16,8 @@ This project provides a SPARQL endpoint for querying transit data based on the G
   - `routes.ttl` - Ontology for transit routes
   - `calendar.ttl` - Ontology for service schedules and calendars
   - `agency.ttl` - Ontology for transit agencies
+  - `shapes.ttl` - Ontology for route shapes and geographic paths
+  - `fares.ttl` - Ontology for fare information and pricing rules
 - **TDB2 Storage**: Efficient persistent storage using Apache Jena TDB2
 - **Auto-loading**: Automatically loads ontologies from the `ontology/` directory on startup
 
@@ -29,7 +31,9 @@ infobus-sparql/
 │   ├── trips.ttl
 │   ├── routes.ttl
 │   ├── calendar.ttl
-│   └── agency.ttl
+│   ├── agency.ttl
+│   ├── shapes.ttl
+│   └── fares.ttl
 ├── data/
 │   └── tdb2/          # TDB2 triplestore data (auto-created)
 ├── config/
@@ -162,6 +166,22 @@ Extended ontology for transit agencies:
 - Agency contact information
 - Service areas
 - Agency relationships (parent/subsidiary)
+
+### Shapes Ontology (shapes.ttl)
+
+Extended ontology for route shapes:
+- Shape points and sequences
+- Geographic coordinates
+- Distance calculations
+- GeoJSON and WKT representations
+
+### Fares Ontology (fares.ttl)
+
+Extended ontology for fare information:
+- Fare attributes and pricing
+- Payment methods
+- Fare rules and zones
+- Discount types and fare products
 
 ## Development
 

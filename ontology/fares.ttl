@@ -1,0 +1,210 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix gtfs: <http://vocab.gtfs.org/terms#> .
+
+# GTFS Fares Ontology Extension
+# Detailed ontology for fare information
+
+<http://vocab.gtfs.org/terms/fares>
+    a owl:Ontology ;
+    dcterms:title "GTFS Fares Ontology"@en ;
+    dcterms:description "Extension ontology for GTFS fare information and rules"@en ;
+    owl:imports <http://vocab.gtfs.org/terms#> .
+
+# Fare Attribute properties
+
+gtfs:fareId
+    a owl:DatatypeProperty ;
+    rdfs:label "fare ID"@en ;
+    rdfs:comment "Unique identifier for a fare class"@en ;
+    rdfs:domain gtfs:FareAttribute ;
+    rdfs:range xsd:string .
+
+gtfs:price
+    a owl:DatatypeProperty ;
+    rdfs:label "price"@en ;
+    rdfs:comment "Fare price in the currency specified by currency_type"@en ;
+    rdfs:domain gtfs:FareAttribute ;
+    rdfs:range xsd:decimal .
+
+gtfs:currencyType
+    a owl:DatatypeProperty ;
+    rdfs:label "currency type"@en ;
+    rdfs:comment "ISO 4217 alphabetic currency code (e.g., USD, EUR)"@en ;
+    rdfs:domain gtfs:FareAttribute ;
+    rdfs:range xsd:string .
+
+gtfs:paymentMethod
+    a owl:DatatypeProperty ;
+    rdfs:label "payment method"@en ;
+    rdfs:comment "Indicates when fare must be paid (0=on board, 1=before boarding)"@en ;
+    rdfs:domain gtfs:FareAttribute ;
+    rdfs:range xsd:integer .
+
+gtfs:transfers
+    a owl:DatatypeProperty ;
+    rdfs:label "transfers"@en ;
+    rdfs:comment "Number of transfers permitted on this fare (0, 1, 2, or empty=unlimited)"@en ;
+    rdfs:domain gtfs:FareAttribute ;
+    rdfs:range xsd:integer .
+
+gtfs:agencyId
+    a owl:DatatypeProperty ;
+    rdfs:label "agency ID"@en ;
+    rdfs:comment "Identifies the relevant agency for a fare"@en ;
+    rdfs:domain gtfs:FareAttribute ;
+    rdfs:range xsd:string .
+
+gtfs:transferDuration
+    a owl:DatatypeProperty ;
+    rdfs:label "transfer duration"@en ;
+    rdfs:comment "Length of time in seconds before a transfer expires"@en ;
+    rdfs:domain gtfs:FareAttribute ;
+    rdfs:range xsd:integer .
+
+# Payment Method Types
+
+gtfs:PaymentMethod
+    a owl:Class ;
+    rdfs:label "Payment Method"@en ;
+    rdfs:comment "When the fare must be paid"@en .
+
+gtfs:OnBoard
+    a gtfs:PaymentMethod ;
+    rdfs:label "On Board"@en ;
+    rdfs:comment "Fare is paid on board (payment_method=0)"@en .
+
+gtfs:BeforeBoarding
+    a gtfs:PaymentMethod ;
+    rdfs:label "Before Boarding"@en ;
+    rdfs:comment "Fare must be paid before boarding (payment_method=1)"@en .
+
+gtfs:hasPaymentMethod
+    a owl:ObjectProperty ;
+    rdfs:label "has payment method"@en ;
+    rdfs:comment "Links a fare to its payment method"@en ;
+    rdfs:domain gtfs:FareAttribute ;
+    rdfs:range gtfs:PaymentMethod .
+
+# Fare Rule properties
+
+gtfs:originId
+    a owl:DatatypeProperty ;
+    rdfs:label "origin ID"@en ;
+    rdfs:comment "Identifies an origin zone"@en ;
+    rdfs:domain gtfs:FareRule ;
+    rdfs:range xsd:string .
+
+gtfs:destinationId
+    a owl:DatatypeProperty ;
+    rdfs:label "destination ID"@en ;
+    rdfs:comment "Identifies a destination zone"@en ;
+    rdfs:domain gtfs:FareRule ;
+    rdfs:range xsd:string .
+
+gtfs:containsId
+    a owl:DatatypeProperty ;
+    rdfs:label "contains ID"@en ;
+    rdfs:comment "Identifies zones that a rider will enter while using the fare"@en ;
+    rdfs:domain gtfs:FareRule ;
+    rdfs:range xsd:string .
+
+# Relationships
+
+gtfs:fareAttribute
+    a owl:ObjectProperty ;
+    rdfs:label "fare attribute"@en ;
+    rdfs:comment "Links a fare rule to its fare attribute"@en ;
+    rdfs:domain gtfs:FareRule ;
+    rdfs:range gtfs:FareAttribute .
+
+gtfs:appliesToRoute
+    a owl:ObjectProperty ;
+    rdfs:label "applies to route"@en ;
+    rdfs:comment "Indicates the fare rule applies to a specific route"@en ;
+    rdfs:domain gtfs:FareRule ;
+    rdfs:range gtfs:Route .
+
+gtfs:hasFareRule
+    a owl:ObjectProperty ;
+    rdfs:label "has fare rule"@en ;
+    rdfs:comment "Links a fare attribute to its rules"@en ;
+    rdfs:domain gtfs:FareAttribute ;
+    rdfs:range gtfs:FareRule .
+
+# Fare products (extended)
+
+gtfs:FareProduct
+    a owl:Class ;
+    rdfs:label "Fare Product"@en ;
+    rdfs:comment "A specific fare product or ticket type"@en .
+
+gtfs:SingleRide
+    a gtfs:FareProduct ;
+    rdfs:label "Single Ride"@en ;
+    rdfs:comment "Single journey ticket"@en .
+
+gtfs:DayPass
+    a gtfs:FareProduct ;
+    rdfs:label "Day Pass"@en ;
+    rdfs:comment "Unlimited rides for one day"@en .
+
+gtfs:WeeklyPass
+    a gtfs:FareProduct ;
+    rdfs:label "Weekly Pass"@en ;
+    rdfs:comment "Unlimited rides for one week"@en .
+
+gtfs:MonthlyPass
+    a gtfs:FareProduct ;
+    rdfs:label "Monthly Pass"@en ;
+    rdfs:comment "Unlimited rides for one month"@en .
+
+gtfs:hasFareProduct
+    a owl:ObjectProperty ;
+    rdfs:label "has fare product"@en ;
+    rdfs:comment "Links a fare attribute to its product type"@en ;
+    rdfs:domain gtfs:FareAttribute ;
+    rdfs:range gtfs:FareProduct .
+
+# Discount types
+
+gtfs:DiscountType
+    a owl:Class ;
+    rdfs:label "Discount Type"@en ;
+    rdfs:comment "Category of rider eligible for discounted fares"@en .
+
+gtfs:SeniorDiscount
+    a gtfs:DiscountType ;
+    rdfs:label "Senior Discount"@en ;
+    rdfs:comment "Discounted fare for senior citizens"@en .
+
+gtfs:YouthDiscount
+    a gtfs:DiscountType ;
+    rdfs:label "Youth Discount"@en ;
+    rdfs:comment "Discounted fare for youth riders"@en .
+
+gtfs:StudentDiscount
+    a gtfs:DiscountType ;
+    rdfs:label "Student Discount"@en ;
+    rdfs:comment "Discounted fare for students"@en .
+
+gtfs:DisabilityDiscount
+    a gtfs:DiscountType ;
+    rdfs:label "Disability Discount"@en ;
+    rdfs:comment "Discounted fare for riders with disabilities"@en .
+
+gtfs:hasDiscount
+    a owl:ObjectProperty ;
+    rdfs:label "has discount"@en ;
+    rdfs:comment "Links a fare to available discounts"@en ;
+    rdfs:domain gtfs:FareAttribute ;
+    rdfs:range gtfs:DiscountType .
+
+gtfs:discountPercentage
+    a owl:DatatypeProperty ;
+    rdfs:label "discount percentage"@en ;
+    rdfs:comment "Percentage discount applied to the fare"@en ;
+    rdfs:range xsd:decimal .
