@@ -1,0 +1,31 @@
+name: infobus-sparql
+services:
+  infobus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: infobus-sparql
+    ports:
+      - "3030:3030"
+    volumes:
+      # Persist TDB2 data on host
+      - ./data:/app/data
+      # Allow overriding ontologies
+      - ./ontology:/app/ontology:ro
+    environment:
+      # Tune JVM memory behavior in containers (can be overridden)
+      - JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=75.0 -XX:+UseContainerSupport
+    healthcheck:
+      # Probe SPARQL endpoint
+      test: ["CMD", "curl", "-fsS", "http://localhost:3030/infobus/sparql"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+        reservations:
+          memory: 512m

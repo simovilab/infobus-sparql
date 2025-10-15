@@ -11,6 +11,7 @@ if [ $? -eq 0 ]; then
     echo "Press Ctrl+C to stop the server"
     echo ""
     java -jar target/infobus-sparql-1.0.0-SNAPSHOT.jar
+    echo "Server started successfully."
 else
     echo "Build failed. Please check the error messages above."
     exit 1
